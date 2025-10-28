@@ -3,6 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse, Page } from '../models/api-response';
 import { CreateStudentDto, Student, UpdateStudentDto } from '../models/student';
+import { Department } from '../models/department';
+import { Course } from '../models/course';
 
 export interface StudentQueryParams {
   page: number;
@@ -16,7 +18,9 @@ export interface StudentQueryParams {
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/api/v1/students';
+  private readonly baseUrl = 'http://localhost:8080/api/v1';
+
+  // --- Student Methods ---
 
   getStudents(queryParams: StudentQueryParams): Observable<ApiResponse<Page<Student>>> {
     let params = new HttpParams()
@@ -32,18 +36,34 @@ export class ApiService {
       params = params.set('isActive', queryParams.isActive.toString());
     }
 
-    return this.http.get<ApiResponse<Page<Student>>>(this.apiUrl, { params });
+    return this.http.get<ApiResponse<Page<Student>>>(`${this.baseUrl}/students`, { params });
   }
 
   addStudent(studentData: CreateStudentDto): Observable<ApiResponse<Student>> {
-    return this.http.post<ApiResponse<Student>>(this.apiUrl, studentData);
+    return this.http.post<ApiResponse<Student>>(`${this.baseUrl}/students`, studentData);
   }
 
   updateStudent(studentId: string, studentData: UpdateStudentDto): Observable<ApiResponse<Student>> {
-    return this.http.put<ApiResponse<Student>>(`${this.apiUrl}/${studentId}`, studentData);
+    return this.http.put<ApiResponse<Student>>(`${this.baseUrl}/students/${studentId}`, studentData);
   }
 
   toggleStudentStatus(studentId: string): Observable<ApiResponse<Student>> {
-    return this.http.patch<ApiResponse<Student>>(`${this.apiUrl}/${studentId}/toggle-status`, {});
+    return this.http.patch<ApiResponse<Student>>(`${this.baseUrl}/students/${studentId}/toggle-status`, {});
+  }
+
+  // --- Department Methods ---
+
+  getDepartments(): Observable<ApiResponse<Department[]>> {
+    return this.http.get<ApiResponse<Department[]>>(`${this.baseUrl}/departments`);
+  }
+
+  // --- Course Methods ---
+
+  getCourses(departmentId?: number): Observable<ApiResponse<Course[]>> {
+    let params = new HttpParams();
+    if (departmentId) {
+      params = params.set('departmentId', departmentId.toString());
+    }
+    return this.http.get<ApiResponse<Course[]>>(`${this.baseUrl}/courses`, { params });
   }
 }

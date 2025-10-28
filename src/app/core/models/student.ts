@@ -1,23 +1,32 @@
-export enum Department {
-  COMPUTER_SCIENCE = 'COMPUTER_SCIENCE',
-  INFORMATION_TECHNOLOGY = 'INFORMATION_TECHNOLOGY',
-  ELECTRICAL_ENGINEERING = 'ELECTRICAL_ENGINEERING',
-  MECHANICAL_ENGINEERING = 'MECHANICAL_ENGINEERING',
-  CIVIL_ENGINEERING = 'CIVIL_ENGINEERING',
-}
+import { Course } from './course';
+import { Department } from './department';
 
 export interface Student {
   id: number;
-  studentId: string; 
+  studentId: string;
   firstName: string;
   lastName: string;
   email: string;
   department: Department;
-  active: boolean; 
+  courses: Course[];
+  active: boolean;
   createdAt: string;
-  updatedAt: string; 
+  updatedAt: string;
 }
 
-export type CreateStudentDto = Omit<Student, 'id' | 'active' | 'createdAt' | 'updatedAt'>;
+export interface CreateStudentDto {
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  departmentId: number;
+  courseIds: number[];
+}
 
-export type UpdateStudentDto = Omit<Student, 'id' | 'studentId' | 'active' | 'createdAt' | 'updatedAt'>;
+export interface UpdateStudentDto {
+  firstName: string;
+  lastName: string;
+  email: string;
+  departmentId: number;
+  courseIds: number[];
+}
