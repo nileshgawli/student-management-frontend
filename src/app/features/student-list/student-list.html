@@ -10,7 +10,7 @@
           of {{ viewState().totalElements }} students
         </p>
       </div>
-      <div class="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
+      <div class="w-full lg:w-auto flex flex-col sm:flex-row items-center gap-3">
         <!-- Search Input -->
         <div class="relative w-full sm:w-64">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -40,6 +40,26 @@
           <option value="inactive">Inactive Only</option>
           <option value="all">All Students</option>
         </select>
+        <!-- Download Dropdown -->
+        <div class="relative w-full sm:w-auto">
+          <details class="group">
+            <summary class="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium cursor-pointer transition-colors duration-200 list-none">
+              <i class="fa-solid fa-download mr-2"></i>
+              Download
+              <i class="fa-solid fa-chevron-down ml-2 text-xs transition-transform duration-200 group-open:rotate-180"></i>
+            </summary>
+            <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg z-20 overflow-hidden">
+              <button (click)="onDownload('xlsx')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-3 transition-colors">
+                <i class="fa-solid fa-file-excel text-emerald-500 w-4 text-center"></i>
+                <span>Download as XLSX</span>
+              </button>
+              <button (click)="onDownload('csv')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-3 transition-colors">
+                <i class="fa-solid fa-file-csv text-sky-500 w-4 text-center"></i>
+                <span>Download as CSV</span>
+              </button>
+            </div>
+          </details>
+        </div>
       </div>
     </div>
   </div>
