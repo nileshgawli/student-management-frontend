@@ -28,7 +28,7 @@ import { RouterLink } from '@angular/router';
               class="group relative overflow-hidden card p-8 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border-2 border-transparent hover:border-primary/20"
             >
               <!-- Background Effect -->
-              <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="absolute inset-0 bg-linear-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <!-- Icon -->
               <div class="relative z-10 flex items-center justify-center h-20 w-20 bg-primary/10 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -50,7 +50,7 @@ import { RouterLink } from '@angular/router';
               </div>
 
               <!-- Hover Border Effect -->
-              <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+              <div class="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-primary to-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
             </a>
 
             <!-- Add Student Card -->
@@ -59,7 +59,7 @@ import { RouterLink } from '@angular/router';
               class="group relative overflow-hidden card p-8 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border-2 border-transparent hover:border-accent/20"
             >
               <!-- Background Effect -->
-              <div class="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="absolute inset-0 bg-linear-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <!-- Icon -->
               <div class="relative z-10 flex items-center justify-center h-20 w-20 bg-accent/10 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -81,7 +81,7 @@ import { RouterLink } from '@angular/router';
               </div>
 
               <!-- Hover Border Effect -->
-              <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+              <div class="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-accent to-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
             </a>
           </div>
         </div>
