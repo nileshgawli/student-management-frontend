@@ -9,6 +9,7 @@ import { ReplaceUnderscorePipe } from '../../shared/pipes/replace-underscore.pip
 import { SortIconComponent } from '../../shared/components/sort-icon/sort-icon';
 import { ConfirmationDialogComponent, DialogState } from '../../shared/components/confirmation-dialog/confirmation-dialog';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Course } from '../../core/models/course';
 
 export type StudentListViewState = {
   students: Student[];
@@ -100,7 +101,6 @@ export default class StudentListComponent {
     });
   }
 
-
   onFilterChange(value: string) {
     this.filterSubject.next(value);
   }
@@ -158,5 +158,12 @@ export default class StudentListComponent {
 
   closeConfirmDialog() {
     this.confirmDialogState.set({ isOpen: false });
+  }
+
+  getRemainingCoursesTooltip(courses: Course[]): string {
+    if (!courses || courses.length === 0) {
+      return '';
+    }
+    return courses.map(c => c.name).join(', ');
   }
 }

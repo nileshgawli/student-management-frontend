@@ -1,56 +1,80 @@
-<header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
-  <nav class="container mx-auto px-6 py-3">
+<header class="bg-card border-border border-b sticky top-0 z-50 backdrop-blur-sm bg-card/95">
+  <nav class="container mx-auto px-4 sm:px-6 py-3">
     <div class="flex items-center justify-between">
-      <a routerLink="/home" class="flex items-center space-x-3">
-        <i class="fa-solid fa-graduation-cap text-2xl text-blue-600 dark:text-blue-400"></i>
-        <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Student Management</h1>
+      <!-- Logo and Brand -->
+      <a routerLink="/home" class="flex items-center space-x-3 group" aria-label="Home">
+        <img
+          src="https://www.aurionpro.com/wp-content/uploads/2025/06/Aurionpro-Logo.svg"
+          alt="Aurionpro Logo"
+          class="h-8 w-auto transition-all duration-300"
+          [class.invert]="themeService.currentTheme() === 'light'"
+        />
       </a>
-      <div class="flex items-center space-x-6">
+
+      <!-- Navigation Links -->
+      <div class="flex items-center space-x-1 sm:space-x-6">
+        <!-- Home Link -->
+        <a
+          routerLink="/home"
+          routerLinkActive="text-primary font-semibold"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-hover transition-all duration-200 group"
+        >
+          <i
+            class="fa-solid fa-house w-5 text-center mr-2 group-hover:scale-110 transition-transform duration-200"
+          ></i>
+          <span class="font-medium">Home</span>
+        </a>
+
+        <!-- Student List Link -->
         <a
           routerLink="/students"
-          routerLinkActive="text-blue-600 dark:text-blue-400"
+          routerLinkActive="text-primary font-semibold"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          class="flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-hover transition-all duration-200 group"
         >
-          <i class="fa-solid fa-list-ul mr-2"></i>Student List
+          <i
+            class="fa-solid fa-list-ul w-5 text-center mr-2 group-hover:scale-110 transition-transform duration-200"
+          ></i>
+          <span class="font-medium">Student List</span>
         </a>
+
+        <!-- Add Student Link -->
         <a
           routerLink="/students/new"
-          routerLinkActive="text-blue-600 dark:text-blue-400"
-          class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          routerLinkActive="text-primary font-semibold"
+          class="flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-hover transition-all duration-200 group"
         >
-          <i class="fa-solid fa-user-plus mr-2"></i>Add Student
+          <i
+            class="fa-solid fa-user-plus w-5 text-center mr-2 group-hover:scale-110 transition-transform duration-200"
+          ></i>
+          <span class="font-medium">Add Student</span>
         </a>
+
         <!-- Theme Toggle Button -->
         <button
           (click)="themeService.toggleTheme()"
           title="Toggle Theme"
-          class="relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--ring))]"
-          [class]="themeService.currentTheme() === 'dark' ? 'bg-blue-500' : 'bg-gray-700'"
+          class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg bg-surface hover:bg-surface-hover transition-all duration-200"
+          [attr.aria-label]="'Switch to ' + (themeService.currentTheme() === 'dark' ? 'light' : 'dark') + ' mode'"
         >
-          <span class="sr-only">Toggle theme</span>
-          <span
-            class="inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300"
-            [class]="themeService.currentTheme() === 'dark' ? 'translate-x-7' : 'translate-x-1'"
-          >
-            <!-- Sun Icon for Light Mode -->
-            <i
-              class="fas fa-sun absolute inset-0 flex items-center justify-center text-lg text-yellow-500 transition-opacity duration-300"
-              [class]="themeService.currentTheme() === 'light' ? 'opacity-100' : 'opacity-0'"
-            ></i>
+          <!-- Sun Icon for Light Mode -->
+          <i
+            class="fas fa-sun text-lg text-yellow-500 transition-all duration-300 absolute"
+            [class]="themeService.currentTheme() === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'"
+          ></i>
 
-            <!-- Moon Icon for Dark Mode -->
-            <i
-              class="fas fa-moon absolute inset-0 flex items-center justify-center text-lg text-blue-900 transition-opacity duration-300"
-              [class]="themeService.currentTheme() === 'dark' ? 'opacity-100' : 'opacity-0'"
-            ></i>
-          </span>
+          <!-- Moon Icon for Dark Mode -->
+          <i
+            class="fas fa-moon text-lg text-blue-400 transition-all duration-300 absolute"
+            [class]="themeService.currentTheme() === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'"
+          ></i>
         </button>
       </div>
     </div>
   </nav>
 </header>
 
-<main class="container mx-auto p-6">
+<main class="container mx-auto px-4 sm:px-6 py-8">
   <router-outlet></router-outlet>
 </main>

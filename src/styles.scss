@@ -1,2 +1,334 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import '../node_modules/@ng-select/ng-select/themes/default.theme.css';
+
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Base */
+    --background: #f9fafb;
+    --foreground: #111827;
+    --card: #ffffff;
+    --card-foreground: #111827;
+    --border: #e5e7eb;
+    --input: #ffffff;
+    --ring: #6366f1;
+
+    /* Brand */
+    --primary: #6366f1;
+    --primary-foreground: #ffffff;
+    --primary-hover: #4f46e5;
+
+    /* Accent */
+    --accent: #10b981;
+    --accent-foreground: #ffffff;
+
+    /* Semantic */
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    /* Supporting */
+    --muted: #9ca3af;
+    --muted-foreground: #6b7280;
+    
+    /* Surface */
+    --surface: #ffffff;
+    --surface-hover: #f9fafb;
+  }
+
+  [data-theme=dark] {
+    color-scheme: dark;
+
+    /* Base */
+    --background: #111827;
+    --foreground: #f9fafb;
+    --card: #1f2937;
+    --card-foreground: #f9fafb;
+    --border: #374151;
+    --input: #1f2937;
+    --ring: #818cf8;
+
+    /* Brand */
+    --primary: #818cf8;
+    --primary-foreground: #ffffff;
+    --primary-hover: #6366f1;
+
+    /* Accent */
+    --accent: #34d399;
+    --accent-foreground: #111827;
+
+    /* Semantic */
+    --destructive: #f87171;
+    --destructive-foreground: #111827;
+
+    /* Supporting */
+    --muted: #6b7280;
+    --muted-foreground: #9ca3af;
+    
+    /* Surface */
+    --surface: #1f2937;
+    --surface-hover: #374151;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: background-color 0.3s, color 0.3s;
+  }
+}
+
+/* Component Classes */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  
+  &:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+  }
+  
+  &:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: var(--surface-hover);
+  }
+  
+  &:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+.card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.input-field {
+  background-color: var(--input);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.2s;
+  width: 100%;
+  
+  &::placeholder {
+    color: var(--muted-foreground);
+  }
+  
+  &:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-color: transparent;
+  }
+}
+
+/* Utility Classes */
+.bg-background {
+  background-color: var(--background);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.bg-card {
+  background-color: var(--card);
+}
+
+.text-card-foreground {
+  color: var(--card-foreground);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-surface-hover:hover {
+  background-color: var(--surface-hover);
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+
+.text-destructive {
+  color: var(--destructive);
+}
+
+.bg-destructive {
+  background-color: var(--destructive);
+}
+
+.text-destructive-foreground {
+  color: var(--destructive-foreground);
+}
+
+.focus-ring:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Form Styles */
+.input-error {
+  border-color: var(--destructive) !important;
+  
+  &:focus {
+    border-color: var(--destructive) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--destructive) 20%, transparent) !important;
+  }
+}
+
+/* ng-select Custom Styles */
+.custom-ng-select {
+  .ng-select-container {
+    background-color: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    color: var(--foreground);
+    min-height: 42px;
+    transition: all 0.2s;
+    
+    .ng-value-container {
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      align-items: center;
+    }
+    
+    .ng-placeholder {
+      color: var(--muted-foreground);
+    }
+  }
+  
+  &.ng-select-focused .ng-select-container {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 2px var(--ring);
+  }
+  
+  &.ng-select-disabled .ng-select-container {
+    background-color: var(--surface-hover);
+    color: var(--muted-foreground);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .ng-dropdown-panel {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    margin-top: 0.25rem;
+    z-index: 50;
+    
+    .ng-dropdown-panel-items {
+      .ng-option {
+        padding: 0.5rem 0.75rem;
+        background-color: var(--card);
+        color: var(--foreground);
+        transition: background-color 0.2s;
+        
+        &:hover {
+          background-color: var(--surface-hover);
+        }
+        
+        &.ng-option-marked {
+          background-color: var(--surface-hover);
+        }
+        
+        &.ng-option-selected {
+          background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+          color: var(--primary);
+        }
+      }
+    }
+  }
+  
+  &.ng-select-error .ng-select-container {
+    border-color: var(--destructive);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--destructive) 20%, transparent);
+  }
+  
+  .ng-select-label {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    margin: 0.125rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    
+    .fa-xmark {
+      margin-left: 0.25rem;
+      cursor: pointer;
+      opacity: 0.8;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-8px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
