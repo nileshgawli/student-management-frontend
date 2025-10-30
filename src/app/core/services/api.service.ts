@@ -39,6 +39,26 @@ export class ApiService {
     return this.http.get<ApiResponse<Page<Student>>>(`${this.baseUrl}/students`, { params });
   }
 
+  downloadStudents(
+    format: 'xlsx' | 'csv',
+    queryParams: Omit<StudentQueryParams, 'page' | 'size' | 'sortBy' | 'sortDir'>
+  ): Observable<Blob> {
+    let params = new HttpParams();
+
+    if (queryParams.filter) {
+      params = params.set('filter', queryParams.filter);
+    }
+    if (queryParams.isActive !== undefined && queryParams.isActive !== null) {
+      params = params.set('isActive', queryParams.isActive.toString());
+    }
+
+    const endpoint = format === 'xlsx' ? 'xlsx' : 'csv';
+    return this.http.get(`${this.baseUrl}/students/download/${endpoint}`, {
+      params,
+      responseType: 'blob', // Important for file downloads
+    });
+  }
+
   addStudent(studentData: CreateStudentDto): Observable<ApiResponse<Student>> {
     return this.http.post<ApiResponse<Student>>(`${this.baseUrl}/students`, studentData);
   }

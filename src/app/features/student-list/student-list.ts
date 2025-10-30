@@ -10,6 +10,7 @@ import { SortIconComponent } from '../../shared/components/sort-icon/sort-icon';
 import { ConfirmationDialogComponent, DialogState } from '../../shared/components/confirmation-dialog/confirmation-dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Course } from '../../core/models/course';
+import { saveAs } from 'file-saver';
 
 export type StudentListViewState = {
   students: Student[];
@@ -130,6 +131,31 @@ export default class StudentListComponent {
 
   onEdit(student: Student) {
     this.router.navigate(['/students/edit', student.studentId], { state: { student } });
+  }
+
+  onDownload(format: 'xlsx' | 'csv'): void {
+    const queryParams = {
+      filter: this.filterText(),
+      isActive: this.statusFilter() === 'all' ? undefined : this.statusFilter() === 'active',
+    };
+
+    this.viewState.update((s) => ({ ...s, loading: true })); // Show loading indicator
+
+    this.apiService.downloadStudents(format, queryParams).subscribe({
+      next: (blob) => {
+        const fileExtension = format === 'xlsx' ? '.xlsx' : '.csv';
+        saveAs(blob, `students_${new Date().toISOString().slice(0, 10)}${fileExtension}`);
+        this.viewState.update((s) => ({ ...s, loading: false }));
+      },
+      error: (err) => {
+        console.error('Download failed:', err);
+        this.viewState.update((s) => ({
+          ...s,
+          error: 'Failed to download student list. Please try again.',
+          loading: false,
+        }));
+      },
+    });
   }
 
   onToggleStatus(student: Student) {
