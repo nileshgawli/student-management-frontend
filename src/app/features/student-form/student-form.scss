@@ -1,17 +1,17 @@
-// ng-select custom styles only
+// Use CSS variables instead of hardcoded colors for ng-select
 :host ::ng-deep {
   .ng-select-custom {
     .ng-select-container {
-      background-color: white;
-      border: 1px solid #d1d5db;
+      background-color: var(--input);
+      border: 1px solid var(--border);
       border-radius: 0.375rem;
-      color: #111827;
+      color: var(--foreground);
       min-height: 2.5rem;
       transition: all 0.2s ease-in-out;
       font-size: 0.875rem;
 
       &:hover {
-        border-color: #9ca3af;
+        border-color: var(--muted-foreground);
       }
 
       .ng-value-container {
@@ -19,14 +19,14 @@
         align-items: center;
 
         .ng-placeholder {
-          color: #6b7280;
+          color: var(--muted-foreground);
         }
 
         .ng-input {
           input {
-            color: #111827;
+            color: var(--foreground);
             &::placeholder {
-              color: #6b7280;
+              color: var(--muted-foreground);
             }
           }
         }
@@ -34,79 +34,61 @@
     }
 
     &.ng-select-focused .ng-select-container {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      border-color: var(--ring);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 20%, transparent);
     }
 
     &.ng-select-disabled .ng-select-container {
-      background-color: #f9fafb;
-      color: #6b7280;
+      background-color: var(--surface-hover);
+      color: var(--muted-foreground);
       cursor: not-allowed;
       opacity: 0.7;
     }
 
     .ng-dropdown-panel {
-      background-color: white;
-      border: 1px solid #d1d5db;
+      background-color: var(--card);
+      border: 1px solid var(--border);
       border-radius: 0.375rem;
       box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
       z-index: 50;
 
       .ng-dropdown-panel-items {
         .ng-option {
-          background-color: white;
-          color: #374151;
+          background-color: var(--card);
+          color: var(--foreground);
           padding: 0.5rem 0.75rem;
           font-size: 0.875rem;
           transition: background-color 0.15s ease-in-out;
 
           &.ng-option-selected {
-            background-color: #3b82f6;
-            color: white;
+            background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+            color: var(--primary);
           }
 
           &.ng-option-marked {
-            background-color: #f3f4f6;
+            background-color: var(--surface-hover);
           }
         }
       }
     }
-  }
 
-  // Dark mode styles for ng-select
-  .dark .ng-select-custom {
-    .ng-select-container {
-      background-color: #374151;
-      border-color: #4b5563;
-      color: white;
-
-      .ng-value-container .ng-placeholder {
-        color: #9ca3af;
+    // Selected tags styling
+    .ng-value {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 0.25rem;
+      
+      .ng-value-label {
+        color: var(--primary-foreground);
       }
-
-      .ng-input input {
-        color: white;
+      
+      .ng-value-icon {
+        color: var(--primary-foreground);
+        opacity: 0.8;
         
-        &::placeholder {
-          color: #9ca3af;
-        }
-      }
-    }
-
-    .ng-dropdown-panel {
-      background-color: #374151;
-      border-color: #4b5563;
-
-      .ng-dropdown-panel-items .ng-option {
-        background-color: #374151;
-        color: white;
-
-        &.ng-option-selected {
-          background-color: #3b82f6;
-        }
-
-        &.ng-option-marked {
-          background-color: #4b5563;
+        &:hover {
+          opacity: 1;
+          background-color: color-mix(in srgb, var(--primary-foreground) 20%, transparent);
         }
       }
     }

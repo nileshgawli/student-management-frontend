@@ -6,8 +6,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <div class="min-h-screen bg-background">
-      <!-- Action Cards Section -->
+<div class="min-h-[calc(100vh-20rem)] bg-background">
       <div class="px-6 pb-16 md:pb-24">
         <div class="max-w-6xl mx-auto">
           <!-- Section Header -->
