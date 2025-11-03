@@ -41,9 +41,15 @@ export class ApiService {
     return this.http.get<ApiResponse<Page<Student>>>(`${this.baseUrl}/students`, { params });
   }
 
-  downloadStudents(format: 'xlsx' | 'csv', queryParams: Omit<QueryParams, 'page' | 'size' | 'sortBy' | 'sortDir'>): Observable<Blob> {
+  downloadStudents(
+    format: 'xlsx' | 'csv' | 'pdf',
+    queryParams: Omit<QueryParams, 'page' | 'size' | 'sortBy' | 'sortDir'>
+  ): Observable<Blob> {
     const params = this.buildParams(queryParams);
-    return this.http.get(`${this.baseUrl}/students/download/${format}`, { params, responseType: 'blob' });
+    return this.http.get(`${this.baseUrl}/students/download/${format}`, {
+      params,
+      responseType: 'blob',
+    });
   }
 
   addStudent(studentData: CreateStudentDto): Observable<ApiResponse<Student>> {

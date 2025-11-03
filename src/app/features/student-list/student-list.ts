@@ -134,7 +134,7 @@ export default class StudentListComponent {
     this.router.navigate(['/students/edit', student.studentId], { state: { student } });
   }
 
-  onDownload(format: 'xlsx' | 'csv'): void {
+  onDownload(format: 'xlsx' | 'csv' | 'pdf'): void { 
     const queryParams = {
       filter: this.filterText(),
       isActive: this.statusFilter() === 'all' ? undefined : this.statusFilter() === 'active',
@@ -144,7 +144,7 @@ export default class StudentListComponent {
 
     this.apiService.downloadStudents(format, queryParams).subscribe({
       next: (blob) => {
-        const fileExtension = format === 'xlsx' ? '.xlsx' : '.csv';
+        const fileExtension = `.${format}`; // Simplified
         saveAs(blob, `students_${new Date().toISOString().slice(0, 10)}${fileExtension}`);
         this.viewState.update((s) => ({ ...s, loading: false }));
       },
