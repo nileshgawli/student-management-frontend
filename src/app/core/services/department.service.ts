@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { ApiService } from './api.service';
+import { ApiService, QueryParams } from './api.service';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '../models/api-response';
-import { Department } from '../models/department';
+import { ApiResponse, Page } from '../models/api-response';
+import { CreateDepartmentDto, Department, UpdateDepartmentDto } from '../models/department';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,23 @@ import { Department } from '../models/department';
 export class DepartmentService {
   private readonly apiService = inject(ApiService);
 
-  getDepartments(): Observable<ApiResponse<Department[]>> {
-    return this.apiService.getDepartments();
+  getDepartments(queryParams: QueryParams): Observable<ApiResponse<Page<Department>>> {
+    return this.apiService.getDepartments(queryParams);
+  }
+
+  getActiveDepartments(): Observable<ApiResponse<Department[]>> {
+    return this.apiService.getActiveDepartments();
+  }
+  
+  addDepartment(departmentData: CreateDepartmentDto): Observable<ApiResponse<Department>> {
+    return this.apiService.addDepartment(departmentData);
+  }
+
+  updateDepartment(departmentId: number, departmentData: UpdateDepartmentDto): Observable<ApiResponse<Department>> {
+    return this.apiService.updateDepartment(departmentId, departmentData);
+  }
+
+  toggleDepartmentStatus(departmentId: number): Observable<ApiResponse<Department>> {
+    return this.apiService.toggleDepartmentStatus(departmentId);
   }
 }

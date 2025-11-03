@@ -1,6 +1,6 @@
-<header class="bg-card border-border border-b sticky top-0 z-50 backdrop-blur-sm bg-card/95">
-  <nav class="container mx-auto px-4 sm:px-6 py-3">
-    <div class="flex items-center justify-between">
+<header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 backdrop-blur-sm bg-white/95 dark:bg-gray-900/95">
+  <nav class="container mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
       <!-- Logo and Brand -->
       <a routerLink="/home" class="flex items-center space-x-3 group" aria-label="Home">
         <img
@@ -12,69 +12,102 @@
       </a>
 
       <!-- Navigation Links -->
-      <div class="flex items-center space-x-1 sm:space-x-6">
-        <!-- Home Link -->
-        <a
-          routerLink="/home"
-          routerLinkActive="text-primary font-semibold"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-hover transition-all duration-200 group"
+      <div class="hidden md:flex items-center space-x-1">
+        <a 
+          routerLink="/home" 
+          routerLinkActive="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" 
+          [routerLinkActiveOptions]="{ exact: true }" 
+          class="flex items-center px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group font-medium"
         >
-          <i
-            class="fa-solid fa-house w-5 text-center mr-2 group-hover:scale-110 transition-transform duration-200"
-          ></i>
-          <span class="font-medium">Home</span>
+          <i class="fa-solid fa-house mr-3 text-gray-400 group-hover:text-blue-500 transition-colors duration-200"></i>
+          <span>Home</span>
         </a>
+        
+        <!-- Students Dropdown -->
+        <div class="relative group">
+          <button 
+            class="flex items-center px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 font-medium"
+          >
+            <i class="fa-solid fa-users mr-3 text-gray-400 group-hover:text-blue-500 transition-colors duration-200"></i>
+            <span>Students</span>
+            <i class="fa-solid fa-chevron-down text-xs ml-2 transition-transform duration-200 group-hover:rotate-180"></i>
+          </button>
+          <div class="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-20 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-1">
+            <a 
+              routerLink="/students" 
+              routerLinkActive="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" 
+              [routerLinkActiveOptions]="{ exact: true }" 
+              class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border-b border-gray-100 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-b-0"
+            >
+              <i class="fa-solid fa-list-ul w-5 mr-3 text-gray-400"></i>
+              Student List
+            </a>
+            <a 
+              routerLink="/students/new" 
+              routerLinkActive="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" 
+              class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border-b border-gray-100 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-b-0"
+            >
+              <i class="fa-solid fa-user-plus w-5 mr-3 text-gray-400"></i>
+              Add Student
+            </a>
+          </div>
+        </div>
 
-        <!-- Student List Link -->
-        <a
-          routerLink="/students"
-          routerLinkActive="text-primary font-semibold"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-hover transition-all duration-200 group"
-        >
-          <i
-            class="fa-solid fa-list-ul w-5 text-center mr-2 group-hover:scale-110 transition-transform duration-200"
-          ></i>
-          <span class="font-medium">Student List</span>
-        </a>
+        <!-- Departments Dropdown -->
+        <div class="relative group">
+          <button 
+            class="flex items-center px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 font-medium"
+          >
+            <i class="fa-solid fa-building-columns mr-3 text-gray-400 group-hover:text-blue-500 transition-colors duration-200"></i>
+            <span>Departments</span>
+            <i class="fa-solid fa-chevron-down text-xs ml-2 transition-transform duration-200 group-hover:rotate-180"></i>
+          </button>
+          <div class="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-20 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-1">
+            <a 
+              routerLink="/departments" 
+              routerLinkActive="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" 
+              [routerLinkActiveOptions]="{ exact: true }" 
+              class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border-b border-gray-100 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-b-0"
+            >
+              <i class="fa-solid fa-list-ul w-5 mr-3 text-gray-400"></i>
+              Department List
+            </a>
+            <a 
+              routerLink="/departments/new" 
+              routerLinkActive="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20" 
+              class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border-b border-gray-100 dark:border-gray-600 first:rounded-t-lg last:rounded-b-lg last:border-b-0"
+            >
+              <i class="fa-solid fa-plus-circle w-5 mr-3 text-gray-400"></i>
+              Add Department
+            </a>
+          </div>
+        </div>
+      </div>
 
-        <!-- Add Student Link -->
-        <a
-          routerLink="/students/new"
-          routerLinkActive="text-primary font-semibold"
-          class="flex items-center px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-hover transition-all duration-200 group"
-        >
-          <i
-            class="fa-solid fa-user-plus w-5 text-center mr-2 group-hover:scale-110 transition-transform duration-200"
-          ></i>
-          <span class="font-medium">Add Student</span>
-        </a>
-
+      <!-- Right Section: Theme Toggle -->
+      <div class="flex items-center space-x-4">
         <!-- Theme Toggle Button -->
         <button
           (click)="themeService.toggleTheme()"
           title="Toggle Theme"
-          class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg bg-surface hover:bg-surface-hover transition-all duration-200"
+          class="relative inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 border border-gray-200 dark:border-gray-600"
           [attr.aria-label]="'Switch to ' + (themeService.currentTheme() === 'dark' ? 'light' : 'dark') + ' mode'"
         >
-          <!-- Sun Icon for Light Mode -->
-          <i
-            class="fas fa-sun text-lg text-yellow-500 transition-all duration-300 absolute"
-            [class]="themeService.currentTheme() === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'"
-          ></i>
+          <i class="fas fa-sun text-lg text-yellow-500 transition-all duration-300 absolute" 
+             [class]="themeService.currentTheme() === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'"></i>
+          <i class="fas fa-moon text-lg text-blue-400 transition-all duration-300 absolute" 
+             [class]="themeService.currentTheme() === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'"></i>
+        </button>
 
-          <!-- Moon Icon for Dark Mode -->
-          <i
-            class="fas fa-moon text-lg text-blue-400 transition-all duration-300 absolute"
-            [class]="themeService.currentTheme() === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'"
-          ></i>
+        <!-- Mobile menu button (optional - if you want to add mobile navigation later) -->
+        <button class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+          <i class="fa-solid fa-bars text-lg"></i>
         </button>
       </div>
     </div>
   </nav>
 </header>
 
-<main class="container mx-auto px-4 sm:px-6 py-8">
+<main class="container mx-auto px-4 sm:px-6 py-8 min-h-screen bg-gray-50 dark:bg-gray-900">
   <router-outlet></router-outlet>
 </main>
