@@ -22,5 +22,4 @@ export interface CreateDepartmentDto {
 // DTO for updating a department's name.
 export interface UpdateDepartmentDto {
   name: string;
-  status: boolean;
 }

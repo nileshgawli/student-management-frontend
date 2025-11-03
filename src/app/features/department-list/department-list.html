@@ -1,25 +1,30 @@
-<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-gray-100 dark:border-slate-800 overflow-hidden">
   
   <!-- Header & Controls -->
-  <div class="p-6 border-b border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50">
+  <div class="p-6 border-b border-gray-200 dark:border-slate-700 bg-linear-to-r from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-      <div class="space-y-1">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Department Management</h2>
-        <p class="text-sm text-gray-600 dark:text-gray-300">
-          Showing <span class="font-semibold text-blue-600 dark:text-blue-400">{{ viewState().departments.length }}</span> 
+      <div class="space-y-2">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-slate-100">Department Management</h2>
+        <p class="text-sm text-gray-600 dark:text-slate-400">
+          Showing <span class="font-semibold text-amber-600 dark:text-amber-400">{{ viewState().departments.length }}</span> 
           of {{ viewState().totalElements }} departments
         </p>
       </div>
       <div class="w-full lg:w-auto flex flex-col sm:flex-row items-center gap-3">
         <!-- Search Input -->
         <div class="relative w-full sm:w-64">
-          <i class="fa-solid fa-search absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"></i>
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <i class="fa-solid fa-search text-gray-400 dark:text-slate-500"></i>
+          </span>
           <input 
             type="text" 
             placeholder="Search departments..."
             [ngModel]="filterText()"
             (ngModelChange)="onFilterChange($event)"
-            class="w-full pl-10 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg 
+                   focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 
+                   bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 
+                   placeholder-gray-500 dark:placeholder-slate-400 transition-all duration-200"
           >
         </div>
         
@@ -27,7 +32,10 @@
         <select 
           [ngModel]="statusFilter()"
           (ngModelChange)="onStatusChange($event)"
-          class="w-full sm:w-48 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+          class="w-full sm:w-48 px-4 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg 
+                 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500
+                 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 
+                 transition-all duration-200"
         >
           <option value="all">All Departments</option>
           <option value="active">Active Only</option>
@@ -37,7 +45,7 @@
         <!-- Add Department Button -->
         <a 
           routerLink="/departments/new" 
-          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg font-medium flex items-center justify-center transition-colors duration-200"
+          class="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors duration-200"
         >
           <i class="fa-solid fa-plus mr-2"></i>
           Add Department
@@ -47,74 +55,71 @@
   </div>
 
   <!-- Table Container -->
-  <div class="overflow-x-auto relative min-h-[400px]">
-    <!-- Loading State -->
+  <div class="overflow-x-auto relative">
+    <!-- Loading Overlay -->
     @if (viewState().loading) {
-      <div class="absolute inset-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm flex items-center justify-center z-10">
-        <div class="text-center p-8">
-          <i class="fa-solid fa-spinner fa-spin text-4xl text-blue-600 dark:text-blue-400 mb-4"></i>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Loading departments...</p>
+      <div class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-10">
+        <div class="text-center">
+          <i class="fa-solid fa-spinner fa-spin text-4xl text-amber-600 dark:text-amber-400 mb-2"></i>
+          <p class="text-gray-600 dark:text-slate-400 font-medium">Loading departments...</p>
         </div>
-      </div>
-    }
-    
-    <!-- Error State -->
-    @if (viewState().error) {
-      <div class="p-8 text-center">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full mb-4">
-          <i class="fa-solid fa-circle-exclamation text-2xl text-red-600 dark:text-red-400"></i>
-        </div>
-        <p class="text-red-600 dark:text-red-400 text-lg font-medium">{{ viewState().error }}</p>
-        <p class="text-gray-600 dark:text-gray-300 mt-2">Please try again later</p>
       </div>
     }
 
     <!-- Data Table -->
-    <table class="w-full text-sm text-left text-gray-900 dark:text-white">
-      <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-600">
+    <table class="w-full text-sm text-left">
+      <thead class="text-xs uppercase bg-gray-50 dark:bg-slate-800/50 border-b border-gray-200 dark:border-slate-700">
         <tr>
-          <th scope="col" class="px-6 py-4 font-semibold cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" (click)="onSortChange('name')">
-            <div class="flex items-center gap-2">
-              <span>Department Name</span>
+          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors" 
+              (click)="onSortChange('name')">
+            <div class="flex items-center gap-1">
+              Department Name
               <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="name"/>
             </div>
           </th>
-          <th scope="col" class="px-6 py-4 font-semibold text-center">Status</th>
-          <th scope="col" class="px-6 py-4 font-semibold text-center">Actions</th>
+          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 text-center">Status</th>
+          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 text-center">Actions</th>
         </tr>
       </thead>
      
       <tbody>
         @for (dept of viewState().departments; track dept.id) {
-          <tr class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-            <td class="px-6 py-4 font-medium">
+          <tr class="bg-white dark:bg-slate-800 border-b border-gray-100 dark:border-slate-700 
+                     hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
+            <td class="px-6 py-4">
               <div class="flex items-center">
-                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mr-4">
-                  <i class="fa-solid fa-building-columns text-blue-600 dark:text-blue-400 text-sm"></i>
+                <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center mr-4">
+                  <i class="fa-solid fa-building-columns text-amber-600 dark:text-amber-400 text-sm"></i>
                 </div>
-                <span class="font-semibold">{{ dept.name | titlecase | replaceUnderscore }}</span>
+                <span class="font-semibold text-gray-900 dark:text-slate-100">{{ dept.name | titlecase | replaceUnderscore }}</span>
               </div>
             </td>
             <td class="px-6 py-4 text-center">
               @if (dept.active) {
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 border border-green-200 dark:border-green-800">
-                  <i class="fa-solid fa-circle-check mr-1.5 text-xs"></i>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
+                            bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 
+                            border border-emerald-200 dark:border-emerald-800">
+                  <i class="fa-solid fa-circle text-[8px] mr-1.5"></i>
                   Active
                 </span>
               } @else {
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 border border-red-200 dark:border-red-800">
-                  <i class="fa-solid fa-circle-pause mr-1.5 text-xs"></i>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
+                            bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 
+                            border border-red-200 dark:border-red-800">
+                  <i class="fa-solid fa-circle text-[8px] mr-1.5"></i>
                   Inactive
                 </span>
               }
             </td>
             <td class="px-6 py-4">
-              <div class="flex justify-center space-x-2">
+              <div class="flex justify-center space-x-3">
                 <!-- Edit Button -->
                 <button 
                   (click)="onEdit(dept)" 
-                  class="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200 border border-transparent hover:border-blue-200 dark:hover:border-blue-800"
-                  title="Edit Department"
+                  class="p-2 text-gray-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 
+                         hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-all duration-200 
+                         border border-transparent hover:border-amber-200 dark:hover:border-amber-800"
+                  title="Edit"
                 >
                   <i class="fa-solid fa-pencil text-sm"></i>
                 </button>
@@ -122,10 +127,11 @@
                 <!-- Toggle Status Button -->
                 <button 
                   (click)="onToggleStatus(dept)" 
-                  [class]="dept.active 
-                    ? 'p-2 text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 rounded-lg transition-all duration-200 border border-transparent hover:border-yellow-200 dark:hover:border-yellow-800'
-                    : 'p-2 text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-all duration-200 border border-transparent hover:border-green-200 dark:hover:border-green-800'"
-                  [title]="dept.active ? 'Deactivate Department' : 'Activate Department'"
+                  [ngClass]="dept.active ? 
+                    'text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 hover:border-yellow-200 dark:hover:border-yellow-800' : 
+                    'text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-200 dark:hover:border-emerald-800'"
+                  class="p-2 hover:rounded-lg transition-all duration-200 border border-transparent"
+                  [title]="dept.active ? 'Deactivate' : 'Activate'"
                 >
                   <i class="fa-solid text-sm" [ngClass]="dept.active ? 'fa-user-slash' : 'fa-user-check'"></i>
                 </button>
@@ -136,21 +142,21 @@
         
         <!-- Empty State -->
         @empty {
-          @if (!viewState().loading && !viewState().error) {
+          @if (!viewState().loading) {
             <tr>
               <td colspan="3" class="text-center py-16">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full mb-4">
-                  <i class="fa-solid fa-inbox text-2xl text-gray-400 dark:text-gray-500"></i>
+                <div class="flex flex-col items-center text-gray-400 dark:text-slate-500">
+                  <i class="fa-solid fa-inbox text-4xl mb-3"></i>
+                  <p class="text-lg font-medium text-gray-500 dark:text-slate-400">No departments found</p>
+                  <p class="text-sm mt-1">Try adjusting your search or filter criteria</p>
+                  <a 
+                    routerLink="/departments/new" 
+                    class="inline-flex items-center px-4 py-2 mt-4 text-sm font-medium text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors"
+                  >
+                    <i class="fa-solid fa-plus mr-2"></i>
+                    Add your first department
+                  </a>
                 </div>
-                <p class="text-gray-900 dark:text-white text-lg font-medium mb-1">No departments found</p>
-                <p class="text-gray-600 dark:text-gray-300 text-sm">Try adjusting your filters or add a new department.</p>
-                <a 
-                  routerLink="/departments/new" 
-                  class="inline-flex items-center px-4 py-2 mt-4 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-                >
-                  <i class="fa-solid fa-plus mr-2"></i>
-                  Add your first department
-                </a>
               </td>
             </tr>
           }
@@ -159,38 +165,48 @@
     </table>
   </div>
 
-  <!-- Pagination -->
+  <!-- Pagination Footer -->
   @if (viewState().totalPages > 0) {
-    <div class="p-4 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-      <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+    <div class="p-6 border-t border-gray-200 dark:border-slate-700 
+                bg-gray-50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300">
         <span>Rows per page:</span>
         <select 
           [ngModel]="pageSize()" 
           (ngModelChange)="onSizeChange($event)" 
-          class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+          class="px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-md 
+                 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500
+                 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 
+                 transition-all duration-200"
         >
           <option [value]="5">5</option>
           <option [value]="10">10</option>
           <option [value]="25">25</option>
+          <option [value]="50">50</option>
         </select>
       </div>
       
-      <span class="font-semibold text-gray-900 dark:text-white">
-        Page {{ currentPage() + 1 }} of {{ viewState().totalPages }}
+      <span class="text-sm text-gray-700 dark:text-slate-300">
+        Page <span class="font-semibold text-amber-600 dark:text-amber-400">{{ currentPage() + 1 }}</span> 
+        of <span class="font-semibold">{{ viewState().totalPages }}</span>
       </span>
       
-      <div class="inline-flex rounded-lg shadow-sm border border-gray-300 dark:border-gray-600 overflow-hidden bg-white dark:bg-gray-700">
+      <div class="inline-flex rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
         <button 
           (click)="onPageChange(currentPage() - 1)" 
           [disabled]="currentPage() === 0" 
-          class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border-r border-gray-300 dark:border-gray-600"
+          class="px-4 py-2 text-sm font-medium bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 
+                 hover:bg-gray-50 dark:hover:bg-slate-700 border-r border-gray-200 dark:border-slate-700
+                 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <i class="fa-solid fa-chevron-left"></i>
         </button>
         <button 
           (click)="onPageChange(currentPage() + 1)" 
           [disabled]="currentPage() + 1 >= viewState().totalPages" 
-          class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          class="px-4 py-2 text-sm font-medium bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 
+                 hover:bg-gray-50 dark:hover:bg-slate-700
+                 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <i class="fa-solid fa-chevron-right"></i>
         </button>

@@ -26,7 +26,6 @@ export default class DepartmentFormComponent implements OnInit {
 
   departmentForm = this.fb.group({
     name: ['', [Validators.required, Validators.pattern('^[a-zA-Z_ ]*$')]],
-    status: [true], 
     courses: this.fb.array([])
   });
 
@@ -40,10 +39,8 @@ export default class DepartmentFormComponent implements OnInit {
       this.isEditMode = true;
       const departmentToEdit: Department | undefined = history.state?.department;
       if (departmentToEdit) {
-        const status = departmentToEdit.active !== undefined ? departmentToEdit.active : true;
         this.departmentForm.patchValue({ 
-          name: departmentToEdit.name.replace(/_/g, ' '),
-          status: status
+          name: departmentToEdit.name.replace(/_/g, ' ')
         });
       } else {
         console.warn('Department state not found, consider fetching from API.');
@@ -76,13 +73,9 @@ export default class DepartmentFormComponent implements OnInit {
     const sanitizedDeptName = (formValue.name || '').trim().replace(/\s+/g, '_').toUpperCase();
     const coursesValue = formValue.courses as CourseNestedDto[];
 
-    // Ensure status is a boolean
-    const status = Boolean(formValue.status);
-
     const apiCall = this.isEditMode
       ? this.departmentService.updateDepartment(this.departmentId()!, { 
-          name: sanitizedDeptName, 
-          status: status
+          name: sanitizedDeptName
         })
       : this.departmentService.addDepartment({ 
           name: sanitizedDeptName, 
