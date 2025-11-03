@@ -3,10 +3,11 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse, Page } from '../models/api-response';
 import { CreateStudentDto, Student, UpdateStudentDto } from '../models/student';
-import { Department } from '../models/department';
+import { CreateDepartmentDto, Department, UpdateDepartmentDto } from '../models/department';
 import { Course } from '../models/course';
 
-export interface StudentQueryParams {
+// Query Params Interfaces
+export interface QueryParams {
   page: number;
   size: number;
   sortBy: string;
@@ -20,43 +21,29 @@ export class ApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = 'http://localhost:8080/api/v1';
 
+  private buildParams(queryParams: Partial<QueryParams>): HttpParams {
+    let params = new HttpParams();
+    for (const key in queryParams) {
+      if (queryParams.hasOwnProperty(key)) {
+        const value = (queryParams as any)[key];
+        if (value !== null && value !== undefined && value !== '') {
+          params = params.set(key, value.toString());
+        }
+      }
+    }
+    return params;
+  }
+
   // --- Student Methods ---
 
-  getStudents(queryParams: StudentQueryParams): Observable<ApiResponse<Page<Student>>> {
-    let params = new HttpParams()
-      .set('page', queryParams.page.toString())
-      .set('size', queryParams.size.toString())
-      .set('sortBy', queryParams.sortBy)
-      .set('sortDir', queryParams.sortDir);
-
-    if (queryParams.filter) {
-      params = params.set('filter', queryParams.filter);
-    }
-    if (queryParams.isActive !== undefined && queryParams.isActive !== null) {
-      params = params.set('isActive', queryParams.isActive.toString());
-    }
-
+  getStudents(queryParams: QueryParams): Observable<ApiResponse<Page<Student>>> {
+    const params = this.buildParams(queryParams);
     return this.http.get<ApiResponse<Page<Student>>>(`${this.baseUrl}/students`, { params });
   }
 
-  downloadStudents(
-    format: 'xlsx' | 'csv',
-    queryParams: Omit<StudentQueryParams, 'page' | 'size' | 'sortBy' | 'sortDir'>
-  ): Observable<Blob> {
-    let params = new HttpParams();
-
-    if (queryParams.filter) {
-      params = params.set('filter', queryParams.filter);
-    }
-    if (queryParams.isActive !== undefined && queryParams.isActive !== null) {
-      params = params.set('isActive', queryParams.isActive.toString());
-    }
-
-    const endpoint = format === 'xlsx' ? 'xlsx' : 'csv';
-    return this.http.get(`${this.baseUrl}/students/download/${endpoint}`, {
-      params,
-      responseType: 'blob', // Important for file downloads
-    });
+  downloadStudents(format: 'xlsx' | 'csv', queryParams: Omit<QueryParams, 'page' | 'size' | 'sortBy' | 'sortDir'>): Observable<Blob> {
+    const params = this.buildParams(queryParams);
+    return this.http.get(`${this.baseUrl}/students/download/${format}`, { params, responseType: 'blob' });
   }
 
   addStudent(studentData: CreateStudentDto): Observable<ApiResponse<Student>> {
@@ -73,8 +60,25 @@ export class ApiService {
 
   // --- Department Methods ---
 
-  getDepartments(): Observable<ApiResponse<Department[]>> {
-    return this.http.get<ApiResponse<Department[]>>(`${this.baseUrl}/departments`);
+  getDepartments(queryParams: QueryParams): Observable<ApiResponse<Page<Department>>> {
+    const params = this.buildParams(queryParams);
+    return this.http.get<ApiResponse<Page<Department>>>(`${this.baseUrl}/departments`, { params });
+  }
+
+  getActiveDepartments(): Observable<ApiResponse<Department[]>> {
+    return this.http.get<ApiResponse<Department[]>>(`${this.baseUrl}/departments/active`);
+  }
+  
+  addDepartment(departmentData: CreateDepartmentDto): Observable<ApiResponse<Department>> {
+    return this.http.post<ApiResponse<Department>>(`${this.baseUrl}/departments`, departmentData);
+  }
+
+  updateDepartment(departmentId: number, departmentData: UpdateDepartmentDto): Observable<ApiResponse<Department>> {
+    return this.http.put<ApiResponse<Department>>(`${this.baseUrl}/departments/${departmentId}`, departmentData);
+  }
+
+  toggleDepartmentStatus(departmentId: number): Observable<ApiResponse<Department>> {
+    return this.http.patch<ApiResponse<Department>>(`${this.baseUrl}/departments/${departmentId}/toggle-status`, {});
   }
 
   // --- Course Methods ---

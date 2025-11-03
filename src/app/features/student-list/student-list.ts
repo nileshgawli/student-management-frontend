@@ -1,9 +1,9 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { ApiService, StudentQueryParams } from '../../core/services/api.service';
+import { ApiService, QueryParams } from '../../core/services/api.service'; // FIX: Changed StudentQueryParams to QueryParams
 import { Student } from '../../core/models/student';
 import { ReplaceUnderscorePipe } from '../../shared/pipes/replace-underscore.pipe';
 import { SortIconComponent } from '../../shared/components/sort-icon/sort-icon';
@@ -30,6 +30,7 @@ export type StudentListViewState = {
     ReplaceUnderscorePipe,
     SortIconComponent,
     ConfirmationDialogComponent,
+    RouterLink,
   ],
   templateUrl: './student-list.html',
   styleUrl: './student-list.scss'
@@ -58,7 +59,7 @@ export default class StudentListComponent {
 
   constructor() {
     effect(() => {
-      const queryParams: StudentQueryParams = {
+      const queryParams: QueryParams = { 
         page: this.currentPage(),
         size: this.pageSize(),
         sortBy: this.sortBy(),
@@ -78,7 +79,7 @@ export default class StudentListComponent {
     });
   }
 
-  private fetchStudents(params: StudentQueryParams): void {
+  private fetchStudents(params: QueryParams): void { 
     this.viewState.update(s => ({ ...s, loading: true, error: null }));
 
     this.apiService.getStudents(params).subscribe({
@@ -139,7 +140,7 @@ export default class StudentListComponent {
       isActive: this.statusFilter() === 'all' ? undefined : this.statusFilter() === 'active',
     };
 
-    this.viewState.update((s) => ({ ...s, loading: true })); // Show loading indicator
+    this.viewState.update((s) => ({ ...s, loading: true }));
 
     this.apiService.downloadStudents(format, queryParams).subscribe({
       next: (blob) => {

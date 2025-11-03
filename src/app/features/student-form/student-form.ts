@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, input, signal, computed, effect } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../core/services/api.service';
 import { CommonModule } from '@angular/common';
 import { CreateStudentDto, Student, UpdateStudentDto } from '../../core/models/student';
@@ -49,14 +49,8 @@ export default class StudentFormComponent implements OnInit {
 
   studentForm = this.fb.group({
     studentId: ['', [Validators.required, Validators.maxLength(100)]],
-    firstName: [
-      '',
-      [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z ]*$')],
-    ],
-    lastName: [
-      '',
-      [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z ]*$')],
-    ],
+    firstName: [ '', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z ]*$')]],
+    lastName: [ '', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z ]*$')]],
     email: ['', [Validators.required, Validators.email]],
     departmentId: [null as number | null, Validators.required],
     courseIds: [[] as number[], Validators.minLength(1)],
@@ -80,6 +74,10 @@ export default class StudentFormComponent implements OnInit {
 
     if (id && this.studentToEdit) {
       this.isEditMode = true;
+      if (this.studentToEdit.department && !this.studentToEdit.department.active) {
+          this.departments.update(deps => [this.studentToEdit!.department, ...deps]);
+      }
+
       this.studentForm.patchValue({
         firstName: this.studentToEdit.firstName,
         lastName: this.studentToEdit.lastName,
@@ -89,15 +87,11 @@ export default class StudentFormComponent implements OnInit {
       });
       this.studentForm.controls.studentId.setValue(this.studentToEdit.studentId);
       this.studentForm.controls.studentId.disable();
-
-      if (this.studentToEdit.department?.id) {
-        this.studentForm.get('departmentId')?.updateValueAndValidity();
-      }
     }
   }
 
   loadDepartments(): void {
-    this.apiService.getDepartments().subscribe({
+    this.apiService.getActiveDepartments().subscribe({
       next: (response) => this.departments.set(response.data),
       error: (err) => this.handleError(err, 'Failed to load departments.'),
     });
@@ -134,9 +128,7 @@ export default class StudentFormComponent implements OnInit {
 
     apiCall.subscribe({
       next: () => {
-        const successMessage = this.isEditMode
-          ? 'Student updated successfully!'
-          : 'Student added successfully!';
+        const successMessage = `Student ${this.isEditMode ? 'updated' : 'added'} successfully!`;
         this.state.set({ status: 'success', message: successMessage });
         setTimeout(() => this.router.navigate(['/students']), 1500);
       },
@@ -148,15 +140,13 @@ export default class StudentFormComponent implements OnInit {
     err: HttpErrorResponse,
     defaultMessage: string = 'An unknown error occurred.'
   ): void {
+    let message: string | string[] = defaultMessage;
     if (err.error?.data?.errors && Array.isArray(err.error.data.errors)) {
-      this.state.set({ status: 'error', message: err.error.data.errors });
+      message = err.error.data.errors;
+    } else if (err.error?.message) {
+      message = err.error.message;
     }
-    else if (err.error?.message) {
-      this.state.set({ status: 'error', message: err.error.message });
-    }
-    else {
-      this.state.set({ status: 'error', message: defaultMessage });
-    }
+    this.state.set({ status: 'error', message });
     console.error(err);
   }
 
