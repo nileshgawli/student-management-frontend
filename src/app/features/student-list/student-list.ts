@@ -3,7 +3,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { ApiService, QueryParams } from '../../core/services/api.service'; // FIX: Changed StudentQueryParams to QueryParams
+import { ApiService, QueryParams } from '../../core/services/api.service';
 import { Student } from '../../core/models/student';
 import { ReplaceUnderscorePipe } from '../../shared/pipes/replace-underscore.pipe';
 import { SortIconComponent } from '../../shared/components/sort-icon/sort-icon';
@@ -144,7 +144,7 @@ export default class StudentListComponent {
 
     this.apiService.downloadStudents(format, queryParams).subscribe({
       next: (blob) => {
-        const fileExtension = `.${format}`; // Simplified
+        const fileExtension = `.${format}`;
         saveAs(blob, `students_${new Date().toISOString().slice(0, 10)}${fileExtension}`);
         this.viewState.update((s) => ({ ...s, loading: false }));
       },
