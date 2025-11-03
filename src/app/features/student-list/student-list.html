@@ -1,12 +1,18 @@
-<div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-gray-100 dark:border-slate-800 overflow-hidden">
-  
+<div
+  class="bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-gray-100 dark:border-slate-800 overflow-hidden"
+>
   <!-- Header & Controls -->
-  <div class="p-6 border-b border-gray-200 dark:border-slate-700 bg-linear-to-r from-gray-50 to-white dark:from-slate-800 dark:to-slate-900">
+  <div
+    class="p-6 border-b border-gray-200 dark:border-slate-700 bg-linear-to-r from-gray-50 to-white dark:from-slate-800 dark:to-slate-900"
+  >
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
       <div class="space-y-2">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-slate-100">Student Management</h2>
         <p class="text-sm text-gray-600 dark:text-slate-400">
-          Showing <span class="font-semibold text-amber-600 dark:text-amber-400">{{ viewState().students.length }}</span> 
+          Showing
+          <span class="font-semibold text-amber-600 dark:text-amber-400">{{
+            viewState().students.length
+          }}</span>
           of {{ viewState().totalElements }} students
         </p>
       </div>
@@ -16,25 +22,19 @@
           <span class="absolute inset-y-0 left-0 flex items-center pl-3">
             <i class="fa-solid fa-search text-gray-400 dark:text-slate-500"></i>
           </span>
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Search by name, ID, email..."
             [ngModel]="filterText()"
             (ngModelChange)="onFilterChange($event)"
-            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg 
-                   focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 
-                   bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 
-                   placeholder-gray-500 dark:placeholder-slate-400 transition-all duration-200"
-          >
+            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 placeholder-gray-500 dark:placeholder-slate-400 transition-all duration-200"
+          />
         </div>
         <!-- Status Filter -->
-        <select 
+        <select
           [ngModel]="statusFilter()"
           (ngModelChange)="onStatusChange($event)"
-          class="w-full sm:w-48 px-4 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg 
-                 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 
-                 transition-all duration-200"
+          class="w-full sm:w-48 px-4 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 transition-all duration-200"
         >
           <option value="active">Active Only</option>
           <option value="inactive">Inactive Only</option>
@@ -43,19 +43,38 @@
         <!-- Download Dropdown -->
         <div class="relative w-full sm:w-auto">
           <details class="group">
-            <summary class="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium cursor-pointer transition-colors duration-200 list-none">
+            <summary
+              class="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium cursor-pointer transition-colors duration-200 list-none"
+            >
               <i class="fa-solid fa-download mr-2"></i>
               Download
-              <i class="fa-solid fa-chevron-down ml-2 text-xs transition-transform duration-200 group-open:rotate-180"></i>
+              <i
+                class="fa-solid fa-chevron-down ml-2 text-xs transition-transform duration-200 group-open:rotate-180"
+              ></i>
             </summary>
-            <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg z-20 overflow-hidden">
-              <button (click)="onDownload('xlsx')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-3 transition-colors">
+            <div
+              class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg z-20 overflow-hidden"
+            >
+              <button
+                (click)="onDownload('xlsx')"
+                class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-3 transition-colors"
+              >
                 <i class="fa-solid fa-file-excel text-emerald-500 w-4 text-center"></i>
                 <span>Download as XLSX</span>
               </button>
-              <button (click)="onDownload('csv')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-3 transition-colors">
+              <button
+                (click)="onDownload('csv')"
+                class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-3 transition-colors"
+              >
                 <i class="fa-solid fa-file-csv text-sky-500 w-4 text-center"></i>
                 <span>Download as CSV</span>
+              </button>
+              <button
+                (click)="onDownload('pdf')"
+                class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-3 transition-colors"
+              >
+                <i class="fa-solid fa-file-pdf text-red-500 w-4 text-center"></i>
+                <span>Download as PDF</span>
               </button>
             </div>
           </details>
@@ -68,211 +87,251 @@
   <div class="overflow-x-auto relative">
     <!-- Loading Overlay -->
     @if (viewState().loading) {
-      <div class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-10">
-        <div class="text-center">
-          <i class="fa-solid fa-spinner fa-spin text-4xl text-amber-600 dark:text-amber-400 mb-2"></i>
-          <p class="text-gray-600 dark:text-slate-400 font-medium">Loading students...</p>
-        </div>
+    <div
+      class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center z-10"
+    >
+      <div class="text-center">
+        <i class="fa-solid fa-spinner fa-spin text-4xl text-amber-600 dark:text-amber-400 mb-2"></i>
+        <p class="text-gray-600 dark:text-slate-400 font-medium">Loading students...</p>
       </div>
+    </div>
     }
 
     <!-- Data Table -->
     <table class="w-full text-sm text-left">
-      <thead class="text-xs uppercase bg-gray-50 dark:bg-slate-800/50 border-b border-gray-200 dark:border-slate-700">
+      <thead
+        class="text-xs uppercase bg-gray-50 dark:bg-slate-800/50 border-b border-gray-200 dark:border-slate-700"
+      >
         <tr>
-          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors" 
-              (click)="onSortChange('studentId')">
+          <th
+            scope="col"
+            class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+            (click)="onSortChange('studentId')"
+          >
             <div class="flex items-center gap-1">
-              Student ID 
-              <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="studentId"/>
+              Student ID
+              <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="studentId" />
             </div>
           </th>
-          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
-              (click)="onSortChange('firstName')">
+          <th
+            scope="col"
+            class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+            (click)="onSortChange('firstName')"
+          >
             <div class="flex items-center gap-1">
               Name
-              <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="firstName"/>
+              <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="firstName" />
             </div>
           </th>
-          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
-              (click)="onSortChange('email')">
+          <th
+            scope="col"
+            class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+            (click)="onSortChange('email')"
+          >
             <div class="flex items-center gap-1">
               Email
-              <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="email"/>
+              <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="email" />
             </div>
           </th>
-          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
-              (click)="onSortChange('department.name')">
+          <th
+            scope="col"
+            class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+            (click)="onSortChange('department.name')"
+          >
             <div class="flex items-center gap-1">
               Department
-              <app-sort-icon [currentSort]="sortBy()" [currentDir]="sortDir()" column="department.name"/>
+              <app-sort-icon
+                [currentSort]="sortBy()"
+                [currentDir]="sortDir()"
+                column="department.name"
+              />
             </div>
           </th>
-          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300">Courses</th>
-          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 text-center">Status</th>
-          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 text-center">Actions</th>
+          <th scope="col" class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300">
+            Courses
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 text-center"
+          >
+            Status
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-4 font-semibold text-gray-700 dark:text-slate-300 text-center"
+          >
+            Actions
+          </th>
         </tr>
       </thead>
-     
+
       <tbody>
         @for (student of viewState().students; track student.id) {
-          <tr class="bg-white dark:bg-slate-800 border-b border-gray-100 dark:border-slate-700 
-                     hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
-            <td class="px-6 py-4 font-mono text-sm font-medium text-amber-700 dark:text-amber-300">
-              {{ student.studentId }}
-            </td>
-            <td class="px-6 py-4">
-              <div class="font-medium text-gray-900 dark:text-slate-100">
-                {{ student.firstName }} {{ student.lastName }}
-              </div>
-            </td>
-            <td class="px-6 py-4 text-gray-600 dark:text-slate-300">{{ student.email }}</td>
-            <td class="px-6 py-4">
-              <!-- **MODIFICATION START** -->
-              @if (student.department) {
-                @if (student.department.active) {
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                    {{ (student.department.name ?? '') | titlecase | replaceUnderscore }}
-                  </span>
-                } @else {
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300" title="This department is inactive">
-                    <i class="fa-solid fa-circle-exclamation mr-1.5 text-xs"></i>
-                    {{ (student.department.name ?? 'N/A') | titlecase | replaceUnderscore }}
-                  </span>
-                }
-              } @else {
-                <span class="text-gray-400 dark:text-slate-500 text-xs italic">No department</span>
+        <tr
+          class="bg-white dark:bg-slate-800 border-b border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors"
+        >
+          <td class="px-6 py-4 font-mono text-sm font-medium text-amber-700 dark:text-amber-300">
+            {{ student.studentId }}
+          </td>
+          <td class="px-6 py-4">
+            <div class="font-medium text-gray-900 dark:text-slate-100">
+              {{ student.firstName }} {{ student.lastName }}
+            </div>
+          </td>
+          <td class="px-6 py-4 text-gray-600 dark:text-slate-300">{{ student.email }}</td>
+          <td class="px-6 py-4">
+            <!-- **MODIFICATION START** -->
+            @if (student.department) { @if (student.department.active) {
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
+            >
+              {{ student.department.name ?? '' | titlecase | replaceUnderscore }}
+            </span>
+            } @else {
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
+              title="This department is inactive"
+            >
+              <i class="fa-solid fa-circle-exclamation mr-1.5 text-xs"></i>
+              {{ student.department.name ?? 'N/A' | titlecase | replaceUnderscore }}
+            </span>
+            } } @else {
+            <span class="text-gray-400 dark:text-slate-500 text-xs italic">No department</span>
+            }
+            <!-- **MODIFICATION END** -->
+          </td>
+          <td class="px-6 py-4">
+            @if (student.courses && student.courses.length > 0) {
+            <div class="flex flex-wrap gap-1.5">
+              @for (course of student.courses.slice(0, 2); track course.id) {
+              <span
+                class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-2.5 py-1 text-xs font-medium text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800"
+              >
+                {{ course.name }}
+              </span>
+              } @if (student.courses.length > 2) {
+              <span
+                class="inline-flex items-center rounded-full bg-gray-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-600 cursor-help"
+                [title]="getRemainingCoursesTooltip(student.courses.slice(2))"
+              >
+                +{{ student.courses.length - 2 }} more
+              </span>
               }
-              <!-- **MODIFICATION END** -->
-            </td>
-            <td class="px-6 py-4">
-              @if (student.courses && student.courses.length > 0) {
-                <div class="flex flex-wrap gap-1.5">
-                  @for (course of student.courses.slice(0, 2); track course.id) {
-                    <span class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 
-                                px-2.5 py-1 text-xs font-medium text-blue-800 dark:text-blue-300 
-                                border border-blue-200 dark:border-blue-800">
-                      {{ course.name }}
-                    </span>
-                  }
-                  @if (student.courses.length > 2) {
-                    <span 
-                      class="inline-flex items-center rounded-full bg-gray-100 dark:bg-slate-700 
-                             px-2.5 py-1 text-xs font-medium text-gray-700 dark:text-slate-300 
-                             border border-gray-200 dark:border-slate-600 cursor-help" 
-                      [title]="getRemainingCoursesTooltip(student.courses.slice(2))">
-                      +{{ student.courses.length - 2 }} more
-                    </span>
-                  }
-                </div>
-              } @else {
-                <span class="text-gray-400 dark:text-slate-500 text-xs italic">No courses</span>
-              }
-            </td>
-            <td class="px-6 py-4 text-center">
-              @if (student.active) {
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
-                            bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 
-                            border border-emerald-200 dark:border-emerald-800">
-                  <i class="fa-solid fa-circle text-[8px] mr-1.5"></i>
-                  Active
-                </span>
-              } @else {
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium 
-                            bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 
-                            border border-red-200 dark:border-red-800">
-                  <i class="fa-solid fa-circle text-[8px] mr-1.5"></i>
-                  Inactive
-                </span>
-              }
-            </td>
-            <td class="px-6 py-4">
-              <div class="flex justify-center space-x-3">
-                <button (click)="onEdit(student)" 
-                        class="p-2 text-gray-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 
-                               hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-all duration-200 
-                               border border-transparent hover:border-amber-200 dark:hover:border-amber-800"
-                        title="Edit">
-                  <i class="fa-solid fa-pencil text-sm"></i>
-                </button>
-                <button (click)="onToggleStatus(student)" 
-                        [ngClass]="student.active ? 
-                          'text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 hover:border-yellow-200 dark:hover:border-yellow-800' : 
-                          'text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-200 dark:hover:border-emerald-800'"
-                        class="p-2 hover:rounded-lg transition-all duration-200 border border-transparent"
-                        [title]="student.active ? 'Deactivate' : 'Activate'">
-                  <i class="fa-solid text-sm" [ngClass]="student.active ? 'fa-user-slash' : 'fa-user-check'"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        } @empty {
-          @if (!viewState().loading) {
-            <tr>
-              <td colspan="7" class="text-center py-16">
-                <div class="flex flex-col items-center text-gray-400 dark:text-slate-500">
-                  <i class="fa-solid fa-inbox text-4xl mb-3"></i>
-                  <p class="text-lg font-medium text-gray-500 dark:text-slate-400">No students found</p>
-                  <p class="text-sm mt-1">Try adjusting your search or filter criteria</p>
-                </div>
-              </td>
-            </tr>
-          }
-        }
+            </div>
+            } @else {
+            <span class="text-gray-400 dark:text-slate-500 text-xs italic">No courses</span>
+            }
+          </td>
+          <td class="px-6 py-4 text-center">
+            @if (student.active) {
+            <span
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800"
+            >
+              <i class="fa-solid fa-circle text-[8px] mr-1.5"></i>
+              Active
+            </span>
+            } @else {
+            <span
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 border border-red-200 dark:border-red-800"
+            >
+              <i class="fa-solid fa-circle text-[8px] mr-1.5"></i>
+              Inactive
+            </span>
+            }
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex justify-center space-x-3">
+              <button
+                (click)="onEdit(student)"
+                class="p-2 text-gray-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-all duration-200 border border-transparent hover:border-amber-200 dark:hover:border-amber-800"
+                title="Edit"
+              >
+                <i class="fa-solid fa-pencil text-sm"></i>
+              </button>
+              <button
+                (click)="onToggleStatus(student)"
+                [ngClass]="
+                  student.active
+                    ? 'text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 hover:border-yellow-200 dark:hover:border-yellow-800'
+                    : 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-200 dark:hover:border-emerald-800'
+                "
+                class="p-2 hover:rounded-lg transition-all duration-200 border border-transparent"
+                [title]="student.active ? 'Deactivate' : 'Activate'"
+              >
+                <i
+                  class="fa-solid text-sm"
+                  [ngClass]="student.active ? 'fa-user-slash' : 'fa-user-check'"
+                ></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        } @empty { @if (!viewState().loading) {
+        <tr>
+          <td colspan="7" class="text-center py-16">
+            <div class="flex flex-col items-center text-gray-400 dark:text-slate-500">
+              <i class="fa-solid fa-inbox text-4xl mb-3"></i>
+              <p class="text-lg font-medium text-gray-500 dark:text-slate-400">No students found</p>
+              <p class="text-sm mt-1">Try adjusting your search or filter criteria</p>
+            </div>
+          </td>
+        </tr>
+        } }
       </tbody>
     </table>
   </div>
 
   <!-- Pagination Footer -->
   @if (viewState().totalPages > 0) {
-    <div class="p-6 border-t border-gray-200 dark:border-slate-700 
-                bg-gray-50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300">
-        <span>Rows per page:</span>
-        <select 
-          [ngModel]="pageSize()"
-          (ngModelChange)="onSizeChange($event)"
-          class="px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-md 
-                 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 
-                 transition-all duration-200"
-        >
-          <option [value]="5">5</option>
-          <option [value]="10">10</option>
-          <option [value]="25">25</option>
-          <option [value]="50">50</option>
-        </select>
-      </div>
-      <span class="text-sm text-gray-700 dark:text-slate-300">
-        Page <span class="font-semibold text-amber-600 dark:text-amber-400">{{ currentPage() + 1 }}</span> 
-        of <span class="font-semibold">{{ viewState().totalPages }}</span>
-      </span>
-      <div class="inline-flex rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
-        <button (click)="onPageChange(currentPage() - 1)" 
-                [disabled]="currentPage() === 0"
-                class="px-4 py-2 text-sm font-medium bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 
-                       hover:bg-gray-50 dark:hover:bg-slate-700 border-r border-gray-200 dark:border-slate-700
-                       disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <button (click)="onPageChange(currentPage() + 1)" 
-                [disabled]="currentPage() + 1 >= viewState().totalPages"
-                class="px-4 py-2 text-sm font-medium bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 
-                       hover:bg-gray-50 dark:hover:bg-slate-700
-                       disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
+  <div
+    class="p-6 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4"
+  >
+    <div class="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300">
+      <span>Rows per page:</span>
+      <select
+        [ngModel]="pageSize()"
+        (ngModelChange)="onSizeChange($event)"
+        class="px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 transition-all duration-200"
+      >
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+      </select>
     </div>
+    <span class="text-sm text-gray-700 dark:text-slate-300">
+      Page
+      <span class="font-semibold text-amber-600 dark:text-amber-400">{{ currentPage() + 1 }}</span>
+      of <span class="font-semibold">{{ viewState().totalPages }}</span>
+    </span>
+    <div
+      class="inline-flex rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden"
+    >
+      <button
+        (click)="onPageChange(currentPage() - 1)"
+        [disabled]="currentPage() === 0"
+        class="px-4 py-2 text-sm font-medium bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 border-r border-gray-200 dark:border-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button
+        (click)="onPageChange(currentPage() + 1)"
+        [disabled]="currentPage() + 1 >= viewState().totalPages"
+        class="px-4 py-2 text-sm font-medium bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
   }
 </div>
 
 <!-- Confirmation Dialog -->
 @if (confirmDialogState().isOpen) {
-  <app-confirmation-dialog 
-    [title]="confirmDialogState().title!"
-    [message]="confirmDialogState().message!"
-    (confirm)="confirmDialogState().onConfirm!()"
-    (cancel)="closeConfirmDialog()"
-  />
+<app-confirmation-dialog
+  [title]="confirmDialogState().title!"
+  [message]="confirmDialogState().message!"
+  (confirm)="confirmDialogState().onConfirm!()"
+  (cancel)="closeConfirmDialog()"
+/>
 }
