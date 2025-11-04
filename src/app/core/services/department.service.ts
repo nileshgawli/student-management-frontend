@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ApiService, QueryParams } from './api.service';
 import { Observable } from 'rxjs';
 import { ApiResponse, Page } from '../models/api-response';
-import { CreateDepartmentDto, Department, UpdateDepartmentDto } from '../models/department';
+import { CreateDepartmentDto, Department, DepartmentDetail, UpdateDepartmentDto } from '../models/department';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +17,16 @@ export class DepartmentService {
   getActiveDepartments(): Observable<ApiResponse<Department[]>> {
     return this.apiService.getActiveDepartments();
   }
+
+  getDepartmentById(departmentId: number): Observable<ApiResponse<DepartmentDetail>> {
+    return this.apiService.getDepartmentById(departmentId);
+  }
   
   addDepartment(departmentData: CreateDepartmentDto): Observable<ApiResponse<Department>> {
     return this.apiService.addDepartment(departmentData);
   }
 
-  updateDepartment(departmentId: number, departmentData: UpdateDepartmentDto): Observable<ApiResponse<Department>> {
+  updateDepartment(departmentId: number, departmentData: UpdateDepartmentDto): Observable<ApiResponse<DepartmentDetail>> {
     return this.apiService.updateDepartment(departmentId, departmentData);
   }
 

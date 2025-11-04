@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse, Page } from '../models/api-response';
 import { CreateStudentDto, Student, UpdateStudentDto } from '../models/student';
-import { CreateDepartmentDto, Department, UpdateDepartmentDto } from '../models/department';
+import { CreateDepartmentDto, Department, UpdateDepartmentDto, DepartmentDetail } from '../models/department';
 import { Course } from '../models/course';
 
 // Query Params Interfaces
@@ -63,10 +63,7 @@ export class ApiService {
   toggleStudentStatus(studentId: string): Observable<ApiResponse<Student>> {
     return this.http.patch<ApiResponse<Student>>(`${this.baseUrl}/students/${studentId}/toggle-status`, {});
   }
-
-  // --- Department Methods ---
-
-  getDepartments(queryParams: QueryParams): Observable<ApiResponse<Page<Department>>> {
+ getDepartments(queryParams: QueryParams): Observable<ApiResponse<Page<Department>>> {
     const params = this.buildParams(queryParams);
     return this.http.get<ApiResponse<Page<Department>>>(`${this.baseUrl}/departments`, { params });
   }
@@ -74,13 +71,17 @@ export class ApiService {
   getActiveDepartments(): Observable<ApiResponse<Department[]>> {
     return this.http.get<ApiResponse<Department[]>>(`${this.baseUrl}/departments/active`);
   }
+
+  getDepartmentById(departmentId: number): Observable<ApiResponse<DepartmentDetail>> {
+    return this.http.get<ApiResponse<DepartmentDetail>>(`${this.baseUrl}/departments/${departmentId}`);
+  }
   
   addDepartment(departmentData: CreateDepartmentDto): Observable<ApiResponse<Department>> {
     return this.http.post<ApiResponse<Department>>(`${this.baseUrl}/departments`, departmentData);
   }
 
-  updateDepartment(departmentId: number, departmentData: UpdateDepartmentDto): Observable<ApiResponse<Department>> {
-    return this.http.put<ApiResponse<Department>>(`${this.baseUrl}/departments/${departmentId}`, departmentData);
+  updateDepartment(departmentId: number, departmentData: UpdateDepartmentDto): Observable<ApiResponse<DepartmentDetail>> {
+    return this.http.put<ApiResponse<DepartmentDetail>>(`${this.baseUrl}/departments/${departmentId}`, departmentData);
   }
 
   toggleDepartmentStatus(departmentId: number): Observable<ApiResponse<Department>> {
@@ -88,7 +89,6 @@ export class ApiService {
   }
 
   // --- Course Methods ---
-
   getCourses(departmentId?: number): Observable<ApiResponse<Course[]>> {
     let params = new HttpParams();
     if (departmentId) {

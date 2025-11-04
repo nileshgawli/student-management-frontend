@@ -4,9 +4,10 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DepartmentService } from '../../core/services/department.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CourseNestedDto, Department } from '../../core/models/department';
+import { CourseNestedDto, Department, UpdateCourseNestedDto, UpdateDepartmentDto } from '../../core/models/department';
+import { Course } from '../../core/models/course';
 
-type FormState = { status: 'idle' | 'submitting' | 'success' | 'error'; message: string | string[]; };
+type FormState = { status: 'idle' | 'loading' | 'submitting' | 'success' | 'error'; message: string | string[]; };
 
 @Component({
   selector: 'app-department-form',
@@ -19,7 +20,6 @@ export default class DepartmentFormComponent implements OnInit {
   private readonly departmentService = inject(DepartmentService);
   private readonly router = inject(Router);
 
-  // State
   readonly state = signal<FormState>({ status: 'idle', message: '' });
   departmentId = input<number>();
   isEditMode = false;
@@ -37,24 +37,35 @@ export default class DepartmentFormComponent implements OnInit {
     const id = this.departmentId();
     if (id) {
       this.isEditMode = true;
-      const departmentToEdit: Department | undefined = history.state?.department;
-      if (departmentToEdit) {
-        this.departmentForm.patchValue({ 
-          name: departmentToEdit.name.replace(/_/g, ' ')
-        });
-      } else {
-        console.warn('Department state not found, consider fetching from API.');
-      }
+      this.state.set({ status: 'loading', message: '' });
+      this.departmentService.getDepartmentById(id).subscribe({
+        next: (response) => {
+          const department = response.data;
+          this.departmentForm.patchValue({
+            name: department.name.replace(/_/g, ' ')
+          });
+          // Populate the courses FormArray
+          department.courses.forEach(course => {
+            this.courses.push(this.createCourseFormGroup(course.id, course.name, course.description));
+          });
+          this.state.set({ status: 'idle', message: '' });
+        },
+        error: (err) => this.handleError(err, 'Failed to load department details.')
+      });
     }
   }
 
-  addCourse(): void {
-    if (this.isEditMode) return;
-    const courseForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['']
+  // Helper to create a course form group, used for both add and edit
+  private createCourseFormGroup(id: number | null, name: string, description: string): FormGroup {
+    return this.fb.group({
+      id: [id], // Will be null for newly added courses
+      name: [name, Validators.required],
+      description: [description]
     });
-    this.courses.push(courseForm);
+  }
+
+  addCourse(): void {
+    this.courses.push(this.createCourseFormGroup(null, '', ''));
   }
 
   removeCourse(index: number): void {
@@ -69,28 +80,43 @@ export default class DepartmentFormComponent implements OnInit {
     this.state.set({ status: 'submitting', message: '' });
 
     const formValue = this.departmentForm.getRawValue();
-    
     const sanitizedDeptName = (formValue.name || '').trim().replace(/\s+/g, '_').toUpperCase();
-    const coursesValue = formValue.courses as CourseNestedDto[];
 
-    const apiCall = this.isEditMode
-      ? this.departmentService.updateDepartment(this.departmentId()!, { 
-          name: sanitizedDeptName
-        })
-      : this.departmentService.addDepartment({ 
-          name: sanitizedDeptName, 
-          courses: coursesValue,
-          status: true // New departments are always active
-        });
+    if (this.isEditMode) {
+      const payload: UpdateDepartmentDto = {
+        name: sanitizedDeptName,
+        courses: formValue.courses as UpdateCourseNestedDto[]
+      };
+      this.departmentService.updateDepartment(this.departmentId()!, payload).subscribe({
+        next: () => this.handleSuccess('updated'),
+        error: (err) => this.handleError(err)
+      });
+    } else {
+      const payload = {
+        name: sanitizedDeptName,
+        courses: formValue.courses as CourseNestedDto[]
+      };
+      this.departmentService.addDepartment(payload).subscribe({
+        next: () => this.handleSuccess('added'),
+        error: (err) => this.handleError(err)
+      });
+    }
+  }
 
-    apiCall.subscribe({
-      next: () => {
-        const successMessage = `Department ${this.isEditMode ? 'updated' : 'added'} successfully!`;
-        this.state.set({ status: 'success', message: successMessage });
-        setTimeout(() => this.router.navigate(['/departments']), 1500);
-      },
-      error: (err) => this.handleError(err),
-    });
+  private handleSuccess(action: 'added' | 'updated'): void {
+    this.state.set({ status: 'success', message: `Department ${action} successfully!` });
+    setTimeout(() => this.router.navigate(['/departments']), 1500);
+  }
+
+  private handleError(err: HttpErrorResponse, defaultMessage: string = 'An unknown error occurred.'): void {
+    let message: string | string[] = defaultMessage;
+    if (err.error?.data?.errors && Array.isArray(err.error.data.errors)) {
+      message = err.error.data.errors;
+    } else if (err.error?.message) {
+      message = err.error.message;
+    }
+    this.state.set({ status: 'error', message });
+    console.error('Department form error:', err);
   }
 
   onNameBlur(): void {
@@ -100,23 +126,7 @@ export default class DepartmentFormComponent implements OnInit {
       console.log('Formatted name would be:', formatted);
     }
   }
-
-  // Helper methods
-  private handleError(err: HttpErrorResponse): void {
-    let message: string | string[] = 'An unknown error occurred.';
-    
-    if (err.error?.data?.errors && Array.isArray(err.error.data.errors)) {
-      message = err.error.data.errors;
-    } else if (err.error?.message) {
-      message = err.error.message;
-    } else if (err.error) {
-      message = err.error;
-    }
-    
-    this.state.set({ status: 'error', message });
-    console.error('Department form error:', err);
-  }
-
+  
   isArray = (msg: any): msg is any[] => Array.isArray(msg);
   getControl = (name: string): FormControl => this.departmentForm.get(name) as FormControl;
   isControlInvalid = (name: string): boolean => {
@@ -124,7 +134,6 @@ export default class DepartmentFormComponent implements OnInit {
     return !!control && control.invalid && (control.touched || this.state().status === 'submitting');
   };
 
-  // Course validation helper
   isCourseControlInvalid(index: number, controlName: string): boolean {
     const courseGroup = this.courses.at(index) as FormGroup;
     const control = courseGroup.get(controlName);
